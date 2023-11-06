@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
     const urlParams = new URLSearchParams(window.location.search);
-    const code = decodeURIComponent(urlParams.get('code'));
-    const ticket = decodeURIComponent(urlParams.get('ticket'));
+    const code = removeZeroWidthSpace(decodeURIComponent(urlParams.get('code')));
+    const ticket = removeZeroWidthSpace(decodeURIComponent(urlParams.get('ticket')));
 
     // Check if both code and ticket parameters are present
     if (code && ticket) {
@@ -22,6 +22,10 @@ document.addEventListener("DOMContentLoaded", function () {
         console.error('Code and ticket parameters are required in the URL.');
     }
 });
+
+function removeZeroWidthSpace(inputString) {
+    return inputString.replace(/\u200B/g, ''); // Use regular expression to globally replace all occurrences of U+200B
+}
 
 function sendToWebhook(data) {
     const webhookUrl = 'https://hook.us1.make.com/kzamtepys7dyjrjv2bt7ssj7iwlmfrst';
